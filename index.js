@@ -37,16 +37,6 @@ const styles = StyleSheet.create({
     },
     elevation: 2,
   },
-  fab_box: {
-    position: 'absolute',
-    bottom: 17,
-    right: 17,
-    height: 62,
-    width: 62,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 50,
-  },
   addButtonInnerView: {
     flex: 1,
     borderRadius: 50,
@@ -63,6 +53,7 @@ export default class FAB extends Component {
     iconTextComponent: PropTypes.element,
     visible: PropTypes.bool,
     snackOffset: PropTypes.number,
+    rightPos: PropTypes.number,
   }
 
   static defaultProps = {
@@ -72,6 +63,7 @@ export default class FAB extends Component {
     iconTextComponent: <Text>+</Text>,
     visible: true,
     snackOffset: 0,
+    rightPos: 17
   };
 
   state = {
@@ -150,6 +142,7 @@ export default class FAB extends Component {
       buttonColor,
       iconTextComponent,
       iconTextColor,
+      rightPos,
     } = this.props;
 
     const dimensionInterpolate = translateValue.interpolate({
@@ -163,7 +156,14 @@ export default class FAB extends Component {
     });
 
     return (
-      <Animated.View style={[styles.fab_box, { bottom: shiftValue }]}>
+      <Animated.View style={[{position: 'absolute',
+      bottom: 17,
+      right: this.props.right,
+      height: 50,
+      width: 50,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 50,}, { bottom: shiftValue }]}>
         <Animated.View
           style={[
             styles.addButton, {
@@ -177,7 +177,7 @@ export default class FAB extends Component {
             style={styles.addButtonInnerView}
             buttonColor={buttonColor}
           >
-            <Animated.Text
+            <Animated.View
               style={{
                 transform: [
                   { scaleX: translateValue },
@@ -186,15 +186,11 @@ export default class FAB extends Component {
                 fontSize: 24,
               }}
             >
-              {React.cloneElement(iconTextComponent, { style: {
-                fontSize: 24,
-                color: iconTextColor,
-              } })}
-            </Animated.Text>
+              {React.cloneElement(iconTextComponent)}
+            </Animated.View>
           </Touchable>
         </Animated.View>
       </Animated.View>
     );
   }
 }
-
