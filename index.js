@@ -54,6 +54,7 @@ export default class FAB extends Component {
     visible: PropTypes.bool,
     snackOffset: PropTypes.number,
     rightPos: PropTypes.number,
+    bottomPos: PropTypes.number,
   }
 
   static defaultProps = {
@@ -63,7 +64,8 @@ export default class FAB extends Component {
     iconTextComponent: <Text>+</Text>,
     visible: true,
     snackOffset: 0,
-    rightPos: 17
+    rightPos: 17,
+    bottomPos: 17
   };
 
   state = {
@@ -143,11 +145,12 @@ export default class FAB extends Component {
       iconTextComponent,
       iconTextColor,
       rightPos,
+      bottomPos,
     } = this.props;
 
     const dimensionInterpolate = translateValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, 56],
+      outputRange: [0, this.props.maxOutput],
     });
 
     const rotateInterpolate = translateValue.interpolate({
@@ -157,13 +160,13 @@ export default class FAB extends Component {
 
     return (
       <Animated.View style={[{position: 'absolute',
-      bottom: 17,
+      bottom: this.props.bottom,
       right: this.props.right,
       height: 50,
       width: 50,
       alignItems: 'center',
       justifyContent: 'center',
-      borderRadius: 50,}, { bottom: shiftValue }]}>
+      borderRadius: 50,}, { bottom: this.props.bottom }]}>
         <Animated.View
           style={[
             styles.addButton, {
